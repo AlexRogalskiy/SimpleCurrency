@@ -19,7 +19,7 @@ data class RoomConversionRate(
             return RoomConversionRate(
                 conversionRate.code,
                 conversionRate.rate,
-                Currency.ALL[conversionRate.getCodeWithoutUSD()] ?: ""
+                Currency.ALL.getValue(conversionRate.getCodeWithoutUSD()).name
             )
         }
     }

@@ -11,7 +11,7 @@ interface CurrencyLayerLiveService {
     @GET("api/live")
     fun getCurrencies(
         @Query("access_key") accessKey: String = BuildConfig.CURRENCY_LAYER_ACCCES_KEY,
-        @Query("currencies") currencies: String = Currency.ALL_STRING,
+        @Query("currencies") currencies: String = Currency.ALL.keys.joinToString(","),
         @Query("source") source: String = "USD",
         @Query("format") format: Int = 1
     ): Single<UsdCurrencyResponse>

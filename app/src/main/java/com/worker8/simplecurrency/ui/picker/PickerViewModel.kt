@@ -11,8 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
-class PickerViewModel(private val repo: PickerRepo) :
-    ViewModel(), LifecycleObserver {
+class PickerViewModel(private val repo: PickerRepo) : ViewModel(), LifecycleObserver {
     private val screenStateSubject =
         BehaviorSubject.createDefault(PickerContract.ScreenState(linkedSetOf(), false, ""))
     private val currentScreenState: PickerContract.ScreenState get() = screenStateSubject.realValue
@@ -21,6 +20,7 @@ class PickerViewModel(private val repo: PickerRepo) :
     private val disposableBag = CompositeDisposable()
     lateinit var input: PickerContract.Input
     lateinit var viewAction: PickerContract.ViewAction
+
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onCreate() {
         input.apply {
@@ -39,7 +39,7 @@ class PickerViewModel(private val repo: PickerRepo) :
                         resultSet.add(roomConversionRate.run {
                             val baseToTargetRate = (rate / baseCurrency)
                             PickerAdapter.PickerRowType(
-                                currencyName = Currency.ALL[getCodeWithoutUSD()] ?: "",
+                                currencyName = Currency.ALL.getValue(getCodeWithoutUSD()).name,
                                 currencyRate = "1 ${repo.getSelectedBaseCurrencyCode()} = ${baseToTargetRate.toThreeDecimalWithComma()} ${getCodeWithoutUSD()}",
                                 currencyRateCalculated = "${inputAmount.toTwoDecimalWithComma()} ${repo.getSelectedBaseCurrencyCode()} = ${(inputAmount * baseToTargetRate).toTwoDecimalWithComma()} ${getCodeWithoutUSD()}",
                                 currencyCode = getCodeWithoutUSD()
